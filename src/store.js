@@ -13,7 +13,8 @@ export default new Vuex.Store({
         user_id: localStorage.getItem('user_id') || null,
         email: localStorage.getItem('email') || '',
         user_type: localStorage.getItem('user_type') || null,
-        jwt_token: localStorage.getItem('jwt_token') || null
+        jwt_token: localStorage.getItem('jwt_token') || null,
+        backHasAuth: false
     },
 
     mutations: {
@@ -29,6 +30,17 @@ export default new Vuex.Store({
             state.status = 'error'
             state.isLoggedIn = false
           },
+
+          storeToken(state) {
+            const data = { remember_token: localStorage.getItem('jwt_token') }
+            Vue.http.post(`${process.env.VUE_APP_SERVICE_URL}/api/users/storejwt`, {
+                ...data
+            })
+                .then(res => {
+                    console.log(res.data)
+                    state.backHasAuth = true
+                }).catch(err => console.log(err))
+          }
       
     },
 
@@ -52,6 +64,7 @@ export default new Vuex.Store({
                     })
                     localStorage.setItem('jwt_token', jwtToken)
                     commit('auth_success', user.email, apiToken)
+                    commit('storeToken')
                     resolve(res)
                 })
                 .catch(err => {
