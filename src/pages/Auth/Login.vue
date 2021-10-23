@@ -53,6 +53,16 @@
                 password: ''
             }
         }),
+        mounted() {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer giAwTKNkbiLMheTsB8QFIem5zYDyPR9KaHaXPX0jUVLIZQ9ymef0CoJTQL5Z`
+              };
+            this.$http.get(`${process.env.VUE_APP_SERVICE_URL}/games`, {headers: headers})
+                .then(res => {
+                    console.log(res.data)
+                })
+        },
         methods: {
             handleSubmit(e){
                 e.preventDefault()

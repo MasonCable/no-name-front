@@ -33,9 +33,13 @@ export default new Vuex.Store({
 
           storeToken(state) {
             const data = { remember_token: localStorage.getItem('jwt_token') }
-            Vue.http.post(`${process.env.VUE_APP_SERVICE_URL}/api/users/storejwt`, {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+              };
+            Vue.http.post(`${process.env.VUE_APP_SERVICE_URL}/users/storejwt`, {
                 ...data
-            })
+            }, {headers: headers})
                 .then(res => {
                     console.log(res.data)
                     state.backHasAuth = true
@@ -54,7 +58,7 @@ export default new Vuex.Store({
                 .then(res => {
                     const apiToken = res.data.apiToken
                     const user = res.data.user
-                    console.log(user)
+                    // console.log(user)
                     localStorage.setItem('access_token', apiToken)
                     localStorage.setItem('user_id', user.id)
                     localStorage.setItem('email', user.email)
