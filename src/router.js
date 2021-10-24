@@ -17,6 +17,7 @@ const Maps = () => import(/* webpackChunkName: "common" */ "@/pages/Maps.vue")
 const Typography = () => import(/* webpackChunkName: "common" */ "@/pages/Typography.vue")
 const TableList = () => import(/* webpackChunkName: "common" */ "@/pages/TableList.vue")
 const Login = () => import(/* webpackChunkName: "common" */ "@/pages/Auth/Login.vue")
+const Logout = () => import(/* webpackChunkName: "common" */ "@/pages/Auth/Logout.vue")
 
 Vue.use(Router)
 
@@ -36,6 +37,13 @@ const router = new VueRouter({
             }
           },
         ],
+      },
+      {
+        path: '/logout',
+        component: Logout,
+        meta: {
+          noAuth: true
+        }
       },
       {
         path: "/",
@@ -103,7 +111,7 @@ const isValidToken = () => {
 
   const decodedToken = jwtDecode(token)
   const currentTime = Date.now() / 1000
-  
+
   return decodedToken.exp > currentTime
 }
 

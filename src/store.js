@@ -14,7 +14,8 @@ export default new Vuex.Store({
         email: localStorage.getItem('email') || '',
         user_type: localStorage.getItem('user_type') || null,
         jwt_token: localStorage.getItem('jwt_token') || null,
-        backHasAuth: false
+        backHasAuth: false,
+        loggedIn: false
     },
 
     mutations: {
@@ -24,7 +25,10 @@ export default new Vuex.Store({
           auth_success(state,email,access_token) {
               state.access_token = access_token
               state.email = email
-              
+              state.loggedIn = true
+          },
+          logout(state){
+              state.isLoggedIn = false
           },
           auth_error(state){
             state.status = 'error'
@@ -33,7 +37,7 @@ export default new Vuex.Store({
 
           storeToken(state) {
             const data = { web_token: localStorage.getItem('jwt_token') }
-            console.log(localStorage.getItem('jwt_token'))
+            
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -42,7 +46,7 @@ export default new Vuex.Store({
                 ...data
             }, {headers: headers})
                 .then(res => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     state.backHasAuth = true
                 }).catch(err => console.log(err))
           }
@@ -82,6 +86,31 @@ export default new Vuex.Store({
                     reject(err)
                 })
             })
+          },
+
+          logout({ commit }) {
+              return new Promise((resolve, reject) => {
+                commit('logout')
+                  const headers = {
+                      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                  }
+                  Vue.http.post(`${process.env.VUE_APP_SERVICE_URL}/logout`, { headers: headers })
+                        .then(res => {
+                            localStorage.removeItem('access_token')
+                            localStorage.removeItem('user_id')
+                            localStorage.removeItem('email')
+                            localStorage.removeItem('user_type')
+                            localStorage.removeItem('jwt_token')
+                            resolve(res)
+                        }).catch(err => {
+                            localStorage.removeItem('access_token')
+                            localStorage.removeItem('user_id')
+                            localStorage.removeItem('email')
+                            localStorage.removeItem('user_type')
+                            localStorage.removeItem('jwt_token')
+                            reject(err)
+                        })
+              })
           }
       
     }

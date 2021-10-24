@@ -92,7 +92,7 @@
               </li>
               <div class="dropdown-divider"></div>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a href="/logout" class="nav-item dropdown-item">Log out</a>
               </li>
             </base-dropdown>
           </ul>

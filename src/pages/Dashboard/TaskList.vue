@@ -1,5 +1,5 @@
 <template>
-    <base-table :data="tableData"
+    <base-table :data="taskList"
                 thead-classes="text-primary">
       <template slot-scope="{row}">
         <td>
@@ -24,11 +24,31 @@
     components: {
       BaseTable
     },
-    computed: {
-      tableData() {
-        return this.$t('dashboard.taskList');
-      }
-    }
+    data(){
+        return {
+        	taskList: [
+				{
+				title: "Update the Documentation",
+				description: "Dwuamish Head, Seattle, WA 8:47 AM",
+				done: false
+				},
+				{
+				"title": "GDPR Compliance",
+				description: "The GDPR is a regulation that requires businesses to protect the personal data and privacy of Europe citizens for transactions that occur within EU member states.",
+				done: true
+				},
+        	]
+        }
+    },
+	mounted(){
+
+	}, 
+	methods: {
+		getTasks(){
+			
+		}
+	}
+    
   }
 </script>
 <style>
