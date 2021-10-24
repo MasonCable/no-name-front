@@ -238,6 +238,7 @@
       }
     },
     methods: {
+
       initBigChart(index) {
         let chartData = {
           datasets: [{
@@ -263,13 +264,14 @@
       }
     },
     mounted() {
-      this.i18n = this.$i18n;
-      if (this.enableRTL) {
-        this.i18n.locale = 'ar';
-        this.$rtl.enableRTL();
-      }
-      this.initBigChart(0);
+		this.i18n = this.$i18n;
+		if (this.enableRTL) {
+		this.i18n.locale = 'ar';
+		this.$rtl.enableRTL();
+		}
+		this.initBigChart(0);
     },
+
     beforeDestroy() {
       if (this.$rtl.isRTL) {
         this.i18n.locale = 'en';

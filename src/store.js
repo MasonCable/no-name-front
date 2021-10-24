@@ -32,7 +32,8 @@ export default new Vuex.Store({
           },
 
           storeToken(state) {
-            const data = { remember_token: localStorage.getItem('jwt_token') }
+            const data = { web_token: localStorage.getItem('jwt_token') }
+            console.log(localStorage.getItem('jwt_token'))
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`

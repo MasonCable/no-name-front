@@ -33,10 +33,10 @@ Vue.use(RouterPrefetch);
 Vue.http.interceptors.push((request, next) => {
   var accessToken = localStorage.getItem('access_token')
   var csrfToken = document.querySelector('meta[name="csrf-token"]')
+
   request.headers.set('X-CSRF-TOKEN', csrfToken)
   request.headers.set('Authorization', `Bearer ${accessToken}`)
   request.headers.set('Access-Control-Allow-Origin', '*')
-  request.headers.set('Accept', 'application/json')
   
   // This function returns the reponse and if there is a 401 unautorized then we log the user out
   next(function(res){
